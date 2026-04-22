@@ -2,6 +2,7 @@ import tkinter as tk
 import threading
 from whatsapp_sender import WhatsAppSender
 from html_generator import create_html   # 🔥 IMPORTANT
+import time
 
 # Initialize sender
 sender = WhatsAppSender()
@@ -30,7 +31,9 @@ def send_followup():
     image_url = "https://res.cloudinary.com/dfxpmsy9l/image/upload/v1776870879/Sofa_n5o3yc.png"
 
     filename, link = create_html(title, desc, image_url)
-
+    print("⏳ Waiting for GitHub Pages to update...")
+    time.sleep(8)
+    
     # 🔥 STEP 2 → Use GENERATED LINK (NOT followup.html)
     message = f"""🙏 Thank you for visiting our store, {name} 😊
 

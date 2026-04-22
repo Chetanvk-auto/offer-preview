@@ -1,4 +1,5 @@
 import time
+import subprocess
 
 # 🔥 Your GitHub Pages base URL
 BASE_URL = "https://chetanvk-auto.github.io/offer-preview/"
@@ -108,8 +109,16 @@ def create_html(title, desc, image_url):
     print("\n✅ HTML Created Successfully")
     print("📄 File:", filename)
     print("🔗 Link:", full_url)
-
+    auto_push()
     return filename, full_url
+def auto_push():
+    try:
+        subprocess.run("git add .", shell=True)
+        subprocess.run('git commit -m "auto update"', shell=True)
+        subprocess.run("git push", shell=True)
+        print("🚀 Auto pushed to GitHub")
+    except Exception as e:
+        print("❌ Push failed:", e)
 
 
 if __name__ == "__main__":

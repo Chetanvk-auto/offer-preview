@@ -1,11 +1,44 @@
 import tkinter as tk
+from tkinter import filedialog
 import threading
-from whatsapp_sender import WhatsAppSender
-from html_generator import create_html   # 🔥 IMPORTANT
 import time
 
-# Initialize sender
+from whatsapp_sender import WhatsAppSender
+from html_updater import update_html
+
+import cloudinary
+import cloudinary.uploader
+
+# 🔥 CONFIGURE CLOUDINARY
+cloudinary.config(
+    cloud_name="dfxpmsy9l",
+    api_key="329984749582184",
+    api_secret="Sf1HfKTwv_GCCcgfAzJVlDeNfT0"
+)
+
 sender = WhatsAppSender()
+
+current_link = "https://offer-preview.vercel.app/followup.html"
+
+
+def upload_image():
+    global current_link
+
+    file_path = filedialog.askopenfilename()
+    if not file_path:
+        return
+
+    status_label.config(text="Uploading image...", fg="yellow")
+
+    result = cloudinary.uploader.upload(file_path)
+    image_url = result["secure_url"]
+
+    current_link = update_html(image_url)
+
+    print("⏳ Waiting for Vercel deploy...")
+    time.sleep(6)   # 🔥 VERY IMPORTANT
+
+    status_label.config(text="Image updated ✅", fg="green")
 
 
 def send_followup():
@@ -16,25 +49,9 @@ def send_followup():
         status_label.config(text="Enter all details ❗", fg="orange")
         return
 
-    if not phone.isdigit() or len(phone) < 10:
-        status_label.config(text="Invalid phone ❌", fg="red")
-        return
-
     if not phone.startswith("91"):
         phone = "91" + phone
 
-    # 🔥 STEP 1 → Generate NEW HTML dynamically
-    title = "🙏 Thank You for Visiting"
-    desc = "Explore our latest furniture collections!"
-
-    # 👉 You can later make this dynamic
-    image_url = "https://res.cloudinary.com/dfxpmsy9l/image/upload/v1776870879/Sofa_n5o3yc.png"
-
-    filename, link = create_html(title, desc, image_url)
-    import webbrowser
-    webbrowser.open(link)  # Open the generated page in browser
-    time.sleep(3)  # Wait a bit for the page to load
-    # 🔥 STEP 2 → Use GENERATED LINK (NOT followup.html)
     message = f"""🙏 Thank you for visiting our store, {name} 😊
 
 We hope you liked our collection!
@@ -43,40 +60,39 @@ We hope you liked our collection!
 🛍️ Exciting offers waiting for you  
 
 Check this 👇
-{link}
+{current_link}
 """
 
-    status_label.config(text="Sending... ⏳", fg="yellow")
+    status_label.config(text="Sending...", fg="yellow")
 
-    threading.Thread(target=send_message_thread, args=(phone, message)).start()
+    threading.Thread(target=send_thread, args=(phone, message)).start()
 
 
-def send_message_thread(phone, message):
+def send_thread(phone, message):
     try:
         sender.send_text(phone, message)
-        status_label.config(text="Message Sent ✅", fg="green")
-    except Exception as e:
-        print(e)
+        status_label.config(text="Sent ✅", fg="green")
+    except:
         status_label.config(text="Failed ❌", fg="red")
 
 
 # UI
 root = tk.Tk()
-root.title("WhatsApp Follow-up Tool")
-root.geometry("400x300")
-root.configure(bg="#1e1e2f")
+root.title("WhatsApp Tool")
+root.geometry("400x320")
 
-tk.Label(root, text="Customer Name", fg="white", bg="#1e1e2f").pack(pady=(15, 5))
-name_entry = tk.Entry(root, width=30)
+tk.Label(root, text="Name").pack()
+name_entry = tk.Entry(root)
 name_entry.pack()
 
-tk.Label(root, text="Phone Number", fg="white", bg="#1e1e2f").pack(pady=(10, 5))
-phone_entry = tk.Entry(root, width=30)
+tk.Label(root, text="Phone").pack()
+phone_entry = tk.Entry(root)
 phone_entry.pack()
 
-tk.Button(root, text="Send Follow-up", command=send_followup).pack(pady=20)
+tk.Button(root, text="📤 Send Message", command=send_followup).pack(pady=10)
+tk.Button(root, text="🖼 Upload Image", command=upload_image).pack(pady=10)
 
-status_label = tk.Label(root, text="", fg="green", bg="#1e1e2f")
+status_label = tk.Label(root, text="")
 status_label.pack()
 
 root.mainloop()

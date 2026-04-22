@@ -1,0 +1,59 @@
+0:00:00 Tab1 PageLoad
+0:00:00 Tab1 PageLoad #ntp
+0:00:00 Tab1 StartNav3 #renderer-script #auto_subframe
+0:00:00 Tab1 FinishNav3
+0:00:00 Tab1 StartNav4 #typed
+0:00:00 Tab1 PageLoad
+0:00:01 Tab1 RemoveInfobar73
+0:00:01 Tab1 AddInfobar73
+0:00:01 Tab1 FinishNav4
+0:00:01 Tab1 PageLoad
+0:00:06 Tab1 StartNav5 #renderer-script #link
+0:00:06 Tab1 FinishNav5
+0:00:22 Tab1 StartNav6 #typed
+0:00:23 Tab1 RemoveInfobar73
+0:00:23 Tab1 AddInfobar73
+0:00:23 Tab1 FinishNav6
+0:00:23 Tab1 PageLoad
+0:00:23 Tab1 StartNav7 #renderer-script #link
+0:00:23 Tab1 FinishNav7
+0:00:28 Tab1 StartNav8 #renderer-script #link
+0:00:28 Tab1 FinishNav8
+0:00:30 TextSelectionChanged
+0:00:31 TextSelectionChanged
+0:00:36 TextSelectionChanged
+0:00:54 TextSelectionChanged
+0:07:50 TextSelectionChanged
+0:12:27 Tab1 StartNav9 #typed
+0:12:28 Tab1 RemoveInfobar73
+0:12:28 Tab1 AddInfobar73
+0:12:28 Tab1 FinishNav9
+0:12:29 Tab1 PageLoad
+0:12:31 Tab1 StartNav10 #renderer-script #link
+0:12:31 Tab1 FinishNav10
+0:12:37 Tab1 StartNav11 #renderer-script #link
+0:12:37 Tab1 FinishNav11
+0:12:39 TextSelectionChanged
+0:12:40 TextSelectionChanged
+0:12:45 TextSelectionChanged
+0:13:01 Tab1 StartNav12 #typed
+0:13:01 Tab1 RemoveInfobar73
+0:13:01 Tab1 AddInfobar73
+0:13:01 Tab1 FinishNav12
+0:13:02 Tab1 PageLoad
+0:13:04 Tab1 StartNav13 #renderer-script #link
+0:13:04 Tab1 FinishNav13
+0:13:10 Tab1 StartNav14 #renderer-script #link
+0:13:10 Tab1 FinishNav14
+0:13:12 TextSelectionChanged
+0:13:13 TextSelectionChanged
+0:13:18 TextSelectionChanged
+0:13:22 TextSelectionChanged
+0:13:22 Browser1 Insert active Tab2 at 1
+0:13:22 Tab2 AddInfobar73
+0:13:22 Tab2 StartNav15 #renderer-user #link
+0:13:22 Tab2 FinishNav15
+0:13:22 Tab2 PageLoad
+0:13:33 TextSelectionChanged
+0:13:34 Widget Closed: StatusBubble
+0:18:36 Tab2 RemoveInfobar73

@@ -1,7 +1,7 @@
 import tkinter as tk
-import time
 import threading
 from whatsapp_sender import WhatsAppSender
+from html_generator import create_html   # 🔥 IMPORTANT
 
 # Initialize sender
 sender = WhatsAppSender()
@@ -11,7 +11,6 @@ def send_followup():
     name = name_entry.get().strip()
     phone = phone_entry.get().strip()
 
-    # Validation
     if not name or not phone:
         status_label.config(text="Enter all details ❗", fg="orange")
         return
@@ -20,11 +19,19 @@ def send_followup():
         status_label.config(text="Invalid phone ❌", fg="red")
         return
 
-    # Ensure 91 format
     if not phone.startswith("91"):
         phone = "91" + phone
 
-    # Message
+    # 🔥 STEP 1 → Generate NEW HTML dynamically
+    title = "🙏 Thank You for Visiting"
+    desc = "Explore our latest furniture collections!"
+
+    # 👉 You can later make this dynamic
+    image_url = "https://res.cloudinary.com/dfxpmsy9l/image/upload/v1776870879/Sofa_n5o3yc.png"
+
+    filename, link = create_html(title, desc, image_url)
+
+    # 🔥 STEP 2 → Use GENERATED LINK (NOT followup.html)
     message = f"""🙏 Thank you for visiting our store, {name} 😊
 
 We hope you liked our collection!
@@ -33,12 +40,11 @@ We hope you liked our collection!
 🛍️ Exciting offers waiting for you  
 
 Check this 👇
-https://chetanvk-auto.github.io/offer-preview/followup.html?v={int(time.time())}
+{link}
 """
 
     status_label.config(text="Sending... ⏳", fg="yellow")
 
-    # Run in background (prevents UI freeze)
     threading.Thread(target=send_message_thread, args=(phone, message)).start()
 
 

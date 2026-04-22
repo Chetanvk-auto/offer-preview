@@ -47,7 +47,7 @@ class WhatsAppSender:
 
             time.sleep(5)
 
-            # ❗ Check if error popup appears
+            # ❗ Check invalid number
             error_popup = self.driver.find_elements(By.XPATH, "//div[contains(text(),'isn’t on WhatsApp')]")
             if error_popup:
                 print(f"❌ {phone} not on WhatsApp")
@@ -62,11 +62,34 @@ class WhatsAppSender:
 
             box.click()
 
+            # Paste message
             pyperclip.copy(message)
             box.send_keys(Keys.CONTROL, 'v')
 
-            time.sleep(5)  # wait for preview
+            print("⌛ Waiting for preview to load...")
 
+            # 🔥 SMART WAIT FOR PREVIEW
+            preview_loaded = False
+
+            for i in range(20):  # wait up to 20 seconds
+                previews = self.driver.find_elements(
+                    By.XPATH,
+                    "//div[contains(@class,'_1f3Zp') or contains(@class,'_2m6k1') or contains(@data-testid,'link-preview')]"
+                )
+
+                if previews:
+                    preview_loaded = True
+                    print("✅ Preview loaded")
+                    break
+
+                time.sleep(1)
+
+            if not preview_loaded:
+                print("⚠️ Preview NOT loaded (sending anyway)")
+
+            time.sleep(1)
+
+            # Send message
             box.send_keys(Keys.ENTER)
 
             print(f"✅ Sent to {phone}")

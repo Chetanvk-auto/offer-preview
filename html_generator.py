@@ -1,10 +1,9 @@
 import time
-import os
 
-# 🔥 CHANGE THIS to your GitHub repo link
+# 🔥 Your GitHub Pages base URL
 BASE_URL = "https://chetanvk-auto.github.io/offer-preview/"
 
-# 📄 HTML Template
+# 📄 HTML Template (IMPROVED)
 TEMPLATE = """<!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +12,7 @@ TEMPLATE = """<!DOCTYPE html>
   <meta property="og:image" content="{image}">
   <meta property="og:url" content="{url}">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Furniture Store">
 
   <title>Offer</title>
 
@@ -83,23 +83,25 @@ TEMPLATE = """<!DOCTYPE html>
 """
 
 
-# 🔥 MAIN FUNCTION
 def create_html(title, desc, image_url):
-    # Unique filename (prevents WhatsApp cache)
-    filename = f"offer_{int(time.time())}.html"
+    timestamp = int(time.time())
 
-    # Full URL (for preview)
+    # 🔥 Unique filename
+    filename = f"offer_{timestamp}.html"
+
+    # 🔥 FULL URL
     full_url = BASE_URL + filename
 
-    # Generate HTML
+    # 🔥 CRITICAL FIX → break WhatsApp image cache
+    image_with_cache = f"{image_url}?v={timestamp}"
+
     html_content = TEMPLATE.format(
         title=title,
         desc=desc,
-        image=image_url,
+        image=image_with_cache,
         url=full_url
     )
 
-    # Save inside your project folder
     with open(filename, "w", encoding="utf-8") as f:
         f.write(html_content)
 
@@ -110,7 +112,6 @@ def create_html(title, desc, image_url):
     return filename, full_url
 
 
-# 🔥 TEST RUN
 if __name__ == "__main__":
     print("=== Generate Offer Page ===")
 

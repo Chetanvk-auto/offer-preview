@@ -2,7 +2,7 @@ import time
 import subprocess
 
 # 🔥 Your GitHub Pages base URL
-BASE_URL = "https://chetanvk-auto.github.io/offer-preview/"
+BASE_URL = "https://offer-preview.vercel.app/"
 
 # 📄 HTML Template (IMPROVED)
 TEMPLATE = """<!DOCTYPE html>
